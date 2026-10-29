@@ -1,0 +1,18 @@
+# 原始证据与附件体积大、可能含隐私，默认不进 Git（按自己需要调整）
+# 示例文章 raw/web/rag-guide-2026.md 随仓库分发，已单独放行
+raw/**/*
+!raw/**/.gitkeep
+!raw/web/
+!raw/web/**
+attachments/**/*
+!attachments/**/.gitkeep
+
+# Obsidian / 系统
+.obsidian/workspace*.json
+.trash/
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc

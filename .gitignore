@@ -16,3 +16,8 @@ Thumbs.db
 # Python
 __pycache__/
 *.pyc
+
+# 基准脚本生成的合成语料与结果（可随时用 bench/build_case.py 重新生成，不入库）
+bench/work/
+work/
+bench-result.json

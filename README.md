@@ -40,6 +40,7 @@
 ├── config/            # Schema 与入库规则（AI 只读）
 ├── prompts/           # 可直接复用的指令：捕获 / 编译 / 体检 / 每日增量
 ├── scripts/kb.py      # 零依赖体检工具：断链 / frontmatter / 孤立页 / 索引覆盖
+├── bench/             # 体检器的规模基准 + 合成语料生成器（可复现事实来源）
 ├── attachments/       # 图片、PDF 等附件
 └── drafts/            # 你的私人草稿（AI 只读）
 ```
@@ -56,6 +57,23 @@ Windows 每天自动体检（可选）：
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\install-daily-task.ps1
 ```
+
+## 体检器能扛多大规模？（可自己复现）
+
+`bench/` 目录带一套**完全合成**的测试语料生成器和基准脚本，能自己造出 4000 页知识库
+并验证体检结果：
+
+```powershell
+# 造 4000 页合成语料（会清空并重建目标目录）
+python bench\build_case.py .\work\case-4000 4000
+
+# 跑规模基准：独立进程计时 + 独立判定逻辑交叉校验
+python bench\run_bench.py --kb .\scripts\kb.py --out .\work --sizes 1000,4000,8000
+```
+
+在该目录的一次实测：1000 / 4000 / 8000 页三档计数**全部一致**（严重 250 / 警告 250 / 提示 220
+在 4000 页时），耗时随机器负载浮动、翻倍比约 2.2–3.6 倍。
+细节与复现注意事项见 [bench/README.md](bench/README.md)。
 
 ## 三条最重要的设计（踩坑换来的）
 
